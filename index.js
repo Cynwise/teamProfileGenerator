@@ -6,6 +6,7 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
 const projectTeam = [];
+inputManager();
 
 function inputManager() {
 
@@ -39,7 +40,6 @@ function inputManager() {
         const officeNumber = data.officeNumber;
         const teamManager = new Manager(managerName, managerId, managerEmail, officeNumber);
         projectTeam.push(teamManager);
-        console.log(teamManager); 
         inputTeam();
     })
 }
@@ -86,11 +86,46 @@ function inputTeam() {
                 const githubName = data.githubName;
                 const teamEngineer = new Engineer(engineerName, engineerId, engineerEmail, githubName);
                 projectTeam.push(teamEngineer);
-                console.log(teamEngineer);
+                inputTeam()
             })
+        }else if (answers.teamMember === 'Intern'){
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    message: 'Enter Intern name:',
+                    name: 'internName',
+                },
+                {
+                    type: 'input',
+                    message: 'Enter ID number:',
+                    name: 'internId',
+                },
+                {
+                    type: 'input',
+                    message: 'Enter intern email address:',
+                    name: 'internEmail',
+                },
+                {
+                    type: 'input',
+                    message: 'Enter intern school:',
+                    name: 'schoolName',
+                }
+            ])
+            .then(function(data){
+                const internName = data.internName;
+                const internId = data.internId;
+                const internEmail = data.internEmail;
+                const schoolName = data.schoolName;
+                const teamIntern = new Intern(internName, internId, internEmail, schoolName);
+                projectTeam.push(teamIntern);
+                inputTeam()
+            })
+
+        }else if (answers.teamMember === 'Team Completed'){
+
+            console.log('compiling team information:');
+            console.log(projectTeam);
         }
 
     })
 }
-
-inputManager();

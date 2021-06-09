@@ -5,6 +5,8 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+const projectTeam = [];
+
 function inputManager() {
 
     inquirer.prompt([
@@ -16,12 +18,12 @@ function inputManager() {
         {
             type: 'input',
             message: 'Enter ID number:',
-            name: 'id',
+            name: 'managerId',
         },
         {
             type: 'input',
             message: 'Enter manager email address:',
-            name: 'email',
+            name: 'managerEmail',
         },
         {
             type: 'input',
@@ -31,12 +33,63 @@ function inputManager() {
     ])
     .then(function (data) {
 
-        const name = data.managerName;
-        const id = data.id;
-        const email = data.email;
+        const managerName = data.managerName;
+        const managerId = data.managerId;
+        const managerEmail = data.managerEmail;
         const officeNumber = data.officeNumber;
-        const teamManager = new Manager(name, id, email, officeNumber);
-        console.log(teamManager);
+        const teamManager = new Manager(managerName, managerId, managerEmail, officeNumber);
+        projectTeam.push(teamManager);
+        console.log(teamManager); 
+        inputTeam();
+    })
+}
+
+function inputTeam() {
+
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Select a member category: ',
+            choices: ['Engineer', 'Intern', 'Team Completed'],
+            name: 'teamMember'
+        }
+    ])
+    .then(answers => {
+
+        if(answers.teamMember === 'Engineer'){
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    message: 'Enter Engineer name:',
+                    name: 'engineerName',
+                },
+                {
+                    type: 'input',
+                    message: 'Enter ID number:',
+                    name: 'engineerId',
+                },
+                {
+                    type: 'input',
+                    message: 'Enter Engineer email address:',
+                    name: 'engineerEmail',
+                },
+                {
+                    type: 'input',
+                    message: 'Enter Engineer github name:',
+                    name: 'githubName',
+                }
+            ])
+            .then(function(data){
+                const engineerName = data.engineerName;
+                const engineerId = data.engineerId;
+                const engineerEmail = data.engineerEmail;
+                const githubName = data.githubName;
+                const teamEngineer = new Engineer(engineerName, engineerId, engineerEmail, githubName);
+                projectTeam.push(teamEngineer);
+                console.log(teamEngineer);
+            })
+        }
+
     })
 }
 

@@ -5,6 +5,7 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+//initializing array and calling function
 const projectTeam = [];
 inputManager();
 
@@ -33,13 +34,14 @@ function inputManager() {
         }
     ])
     .then(function (data) {
-
+        //setting data and pushing info into array
         const managerName = data.managerName;
         const managerId = data.managerId;
         const managerEmail = data.managerEmail;
         const officeNumber = data.officeNumber;
         const teamManager = new Manager(managerName, managerId, managerEmail, officeNumber);
         projectTeam.push(teamManager);
+        // calling function to call option menu
         inputTeam();
     })
 }
@@ -55,7 +57,7 @@ function inputTeam() {
         }
     ])
     .then(answers => {
-
+        // if engineer selected
         if(answers.teamMember === 'Engineer'){
             inquirer.prompt([
                 {
@@ -88,6 +90,7 @@ function inputTeam() {
                 projectTeam.push(teamEngineer);
                 inputTeam()
             })
+            // if intern selected
         }else if (answers.teamMember === 'Intern'){
             inquirer.prompt([
                 {
@@ -120,7 +123,7 @@ function inputTeam() {
                 projectTeam.push(teamIntern);
                 inputTeam()
             })
-
+            // if team completed selected
         }else if (answers.teamMember === 'Team Completed'){
 
             console.log('compiling team information:');
@@ -131,6 +134,7 @@ function inputTeam() {
     })
 }
 
+// function generates the html file and puts in the data from project team
 function generateHtml() {
     const htmlArray = []
     const initHtml = `<!DOCTYPE html>
